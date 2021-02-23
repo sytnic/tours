@@ -18,7 +18,7 @@
 			$query = "SELECT * FROM travels WHERE date_begin_unix <= {$unix_choose_date} AND date_end_unix >= {$unix_choose_date} ORDER BY date_begin_unix ASC";
 			
 			$travel_set = mysqli_query($connection, $query);
-			// $set == resource
+			// $travel_set == resource
 			// Test if there was a query error
 			if (!$travel_set) {
 				die("Database query failed.");
@@ -110,14 +110,17 @@
 	     
 		 </tr> 
 <?php    
-        }	
+        }
+      // 4. Release returned data
+      // This is necessary for only resource (for SELECT)
+      mysqli_free_result($travel_set);		
 	 }
 ?>
 	    
-	</table>	
-      
+	</table>	      
 
     </section>
+
     
 <?php include("includes/layouts/sidebar.php"); ?>
 <?php include("includes/layouts/footer.php"); ?>
