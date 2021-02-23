@@ -1,7 +1,6 @@
-<footer> 
-      <!--************************************************************************
-    Footer starts here
-    ****************************************************************************-->
+   
+    <footer>    
+	
       <article>
         <h3>Github</h3>
         <p>github.com/sytnic</p>
@@ -18,6 +17,6 @@
 <?php
   // 5. Close database connection
   if (isset($connection)){
-	  mysqli_close($connection);}
-  
+	  mysqli_close($connection);
+	}  
 ?>
