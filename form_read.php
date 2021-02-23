@@ -15,7 +15,7 @@
 		if ($unix_choose_date) {
 		
 			// 2. Perform database query
-			$query = "SELECT * FROM travels WHERE date_begin_unix < {$unix_choose_date} AND date_end_unix > {$unix_choose_date};";
+			$query = "SELECT * FROM travels WHERE date_begin_unix < {$unix_choose_date} AND date_end_unix > {$unix_choose_date} ORDER BY date_begin_unix ASC";
 			
 			$travel_set = mysqli_query($connection, $query);
 			// $set == resource
@@ -46,7 +46,7 @@
 		<small><strong>
 		<?php 
 			if  (isset($unix_choose_date) && $unix_choose_date) {
-         		echo strftime("Результаты на дату %d.%m.%y", $unix_choose_date); 
+         		echo strftime("На дату %d.%m.%y", $unix_choose_date); 
 		    }
 		?></strong></small>
     </form>
@@ -69,8 +69,8 @@
 -->
     <table style="width:100%">	
       <tr>
-		<th>Full name</th>
-		<th>Поездки в </th> 
+		<th>Полное имя</th>
+		<th>Поездка в </th> 
 		<th>Дата отъезда</th>
 		<th>Дата приезда</th>
 	  </tr>	  	 
@@ -93,9 +93,21 @@
 		    $region = find_region_by_id($region_id);
 		    echo $region["region"]." (".$row["id_region"].")"; 
 		?></td>  		  
-	      
-	      <td><?php echo $row["date_begin"]; ?></td>
-	      <td><?php echo $row["date_end"]; ?></td>
+	     
+        <td>
+		<?php 
+		    $unix_from_db = $row["date_begin_unix"];
+		    $string_date = unix_to_date($unix_from_db);
+		    echo $string_date; 
+		?></td>
+		 
+	    <td>
+		<?php 
+		    $unix_from_db = $row["date_end_unix"];
+		    $string_date = unix_to_date($unix_from_db);
+		    echo $string_date; 
+		?></td>		
+	     
 		 </tr> 
 <?php    
         }	
