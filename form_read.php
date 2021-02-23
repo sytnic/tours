@@ -15,7 +15,7 @@
 		if ($unix_choose_date) {
 		
 			// 2. Perform database query
-			$query = "SELECT * FROM travels WHERE date_begin_unix < {$unix_choose_date} AND date_end_unix > {$unix_choose_date} ORDER BY date_begin_unix ASC";
+			$query = "SELECT * FROM travels WHERE date_begin_unix <= {$unix_choose_date} AND date_end_unix >= {$unix_choose_date} ORDER BY date_begin_unix ASC";
 			
 			$travel_set = mysqli_query($connection, $query);
 			// $set == resource
