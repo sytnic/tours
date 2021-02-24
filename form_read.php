@@ -34,8 +34,7 @@
          
         <!-- Blog title -->
         <h1>Посмотреть поездки</h1>
-      <div id="bannerImage"><img src="images/mycode1000x300.jpg" alt=""/></div>
-      
+<?php include("includes/layouts/banner.php"); ?>      
 		
     <h2>Form Read</h2>
 	
@@ -78,7 +77,7 @@
 <?php
      if (isset($travel_set)) {
        while($row = mysqli_fetch_assoc($travel_set)) {
-	    // outout data from each row
+	    // output data from each row
 ?>       <tr>
 	      <td>
 		<?php 

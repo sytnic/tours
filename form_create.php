@@ -2,38 +2,142 @@
 <?php require_once("includes/functions.php"); ?>
 <?php include("includes/layouts/header.php"); ?>
 
+<?php
+    if (isset($_POST['submit'])) {
+		// Если отправлено, то обработка формы
+		
+		$date_begin_unix = strtotime($_POST["date_begin"]);	
+		$id_courier = $_POST["courier"];
+		$id_region = $_POST["region"];
+		
+        // переменная перезапишется ниже, если поля заполнялись		
+        $message = "Не все поля были выбраны.<br><br>";	
+        
+		// проверка занятости курьера
+		$busy_set = find_busy_courier_by_id($id_courier);
+				
+		$busy = false;
+		
+		if ($busy_set) { // usually there is always
+			while ($busy_row = mysqli_fetch_assoc($busy_set)) {
+			$exist_unix_begin = (int)$busy_row["date_begin_unix"];
+			$exist_unix_end = (int)$busy_row["date_end_unix"];
+			
+			// debug, and check break;
+			/*
+			echo $exist_unix_begin;
+			echo "<br>";
+			echo $date_begin_unix; 
+			echo "<br>"; 
+			echo $exist_unix_end;
+			echo "<br><br>";
+			*/
+				if (($exist_unix_begin <= $date_begin_unix) && ($date_begin_unix <= $exist_unix_end)) {
+					$message = "Этот курьер занят в это время.<br><br>";
+					$busy = true;	
+                    break;				
+				}
+			}
+		} else {	// if busy_set == null
+           
+		}
+		
+		 var_dump ($busy);
+		
+	    // если поля заполнялись и курьер не занят, то INSERT
+		if ($id_courier && $id_region && $date_begin_unix && !$busy) {
+			
+			// counting the days spent
+			$region_row = find_region_by_id($id_region);
+			if ($region_row) {
+				$spent_days = $region_row["spent_days"];
+				$spent_unix = $spent_days*60*60*24; // xx*min*hour*day
+			}
+			
+            $date_end_unix = $date_begin_unix + $spent_unix;
+		
+			$query  = "INSERT INTO travels (" ;
+			$query .= "  id_courier, id_region, date_begin_unix, date_end_unix" ;
+			$query .= ") VALUES (" ;
+			$query .= "  {$id_courier}, {$id_region}, {$date_begin_unix}, {$date_end_unix} ";
+			$query .= ")";            
+						
+			$result = mysqli_query($connection, $query);
+
+			if ($result) {
+				// Success
+				$message = "Запись создана.<br><br>";	
+			} else {
+				// Failure
+				$message = "Запись не создана.<br><br>";			
+			}
+        }
+
+    } else {	
+        $message = "";
+	}		
+		
+?>
+
+
     <section id="mainContent"> 
          
         <!-- Blog title -->
         <h1>Назначить поездку</h1>
-      <div id="bannerImage"><img src="images/mycode1000x300.jpg" alt=""/></div>
+<?php include("includes/layouts/banner.php"); ?>  
       
 		
     <h2>Введите данные</h2>
+	<?php  echo $message; ?>
 	
-	<form action="/action_page.php">
+	<form action="form_create.php" method="post">
         <label for="date_begin">Дата выезда:</label>
         <input type="date" id="date_begin" name="date_begin">
 		<br><br>
-		<label for="cars">Choose a region</label> 
-		 <select id="cars" name="cars">
-			<option value="volvo">SPB</option>
-			<option value="saab">Moscow</option>
-			<option value="fiat">Kovrov</option>
-			<option value="audi">Ufa</option>
+		<label for="region">Choose a region</label> 
+		 <select id="region" name="region">
+		    <option value="">Выберите регион</option>
+<!-- example
+        <option value="volvo">SPB</option>
+		<option value="saab">Moscow</option>
+-->		 
+<?php   
+
+		$regions_set = find_all_regions();
+		if (isset($regions_set)) {
+            while($region = mysqli_fetch_assoc($regions_set)) {
+	        // output data from each row
+?>              <option value="<?php  echo $region["id"];  ?>">
+					<?php echo htmlentities($region["region"]);  ?>					
+				</option>
+<?php       }                                   ?>		 
+<?php       mysqli_free_result($regions_set);	?>
+<?php   }                                       ?>		
 		 </select>
 		 <br><br>
-		 <label for="cars">Choose a courier</label> 
-		 <select id="cars" name="cars">
-			<option value="volvo">Мышкин</option>
-			<option value="saab">Львович</option>
-			<option value="fiat">Доусон</option>
-			<option value="audi">Джон До</option>
+		 
+		 <label for="courier">Choose a courier</label> 
+		 <select id="courier" name="courier">
+            <option value="">Выберите курьера</option>		 
+<?php 
+		$couriers_set = find_all_couriers();
+		if (isset($couriers_set)) {
+            while($row = mysqli_fetch_assoc($couriers_set)) {
+	        // output data from each row
+?>              <option value="<?php  echo $row["id"];  ?>">
+					<?php echo htmlentities($row["full_name"]);  ?>
+				</option>
+<?php       }                                   ?>		 
+<?php       mysqli_free_result($couriers_set);	?>
+<?php   }                                       ?>		
+		 
 		 </select>
 		 <br><br>
-		 <p><small>Дата возвращения: 23-02-2021</small></p>	
+		 <label for="fname">Дата возвращения:</label><br>
+		 <input type="text" id="spent_unix" name="spent_unix" value="" disabled>
 		
-        <input type="submit" value="Назначить поездку">
+		<br><br>
+        <input type="submit" name="submit" value="Назначить поездку">
     </form>
 	<br>      
 
