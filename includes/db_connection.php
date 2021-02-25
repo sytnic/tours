@@ -15,4 +15,15 @@
          " (" . mysqli_connect_errno() . ")"
     );
   }
+  
+// $charset = mysqli_character_set_name($connection);
+// printf ("Текущая кодировка - %s\n",$charset);
+
+if (!mysqli_set_charset($connection, "utf8mb4")) {
+   // printf("Ошибка при загрузке набора символов utf8mb4: %s\n", mysqli_error($connection));
+    exit();
+} else {
+   // printf("Текущий набор символов: %s\n", mysqli_character_set_name($connection));
+}  
+  
 ?>
