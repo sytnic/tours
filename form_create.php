@@ -2,6 +2,36 @@
 <?php require_once("includes/functions.php"); ?>
 <?php include("includes/layouts/header.php"); ?>
 
+<script>
+function showUser(str) {
+  if (str=="") {
+    document.getElementById("txtHint").innerHTML="";
+    return;
+  }
+  var xmlhttp=new XMLHttpRequest();
+  xmlhttp.onreadystatechange=function() {
+    if (this.readyState==4 && this.status==200) {
+      document.getElementById("txtHint").innerHTML=this.responseText;
+    }
+  }
+  xmlhttp.open("GET","gettime.php?q="+str,true);
+  xmlhttp.send();
+}
+</script>
+<script>
+function showDt(str) {
+  if (str=="") {
+    document.getElementById("dt").innerHTML="";
+    return;
+  } else {
+	  document.getElementById("dt").innerHTML=str;
+  }
+  
+}
+</script>
+
+
+
 <?php
     if (isset($_POST['submit'])) {
 		// Если отправлено, то обработка формы
@@ -92,10 +122,10 @@
 	
 	<form action="form_create.php" method="post">
         <label for="date_begin">Дата выезда:</label>
-        <input type="date" id="date_begin" name="date_begin">
+        <input type="date" id="date_begin" name="date_begin" onchange="showDt(this.value)">
 		<br><br>
 		<label for="region">Choose a region</label> 
-		 <select id="region" name="region">
+		 <select id="region" name="region" onchange="showUser(this.value)">
 		    <option value="">Выберите регион</option>
 <!-- example
         <option value="volvo">SPB</option>
@@ -134,13 +164,19 @@
 		 </select>
 		 <br><br>
 		 <label for="fname">Дата возвращения:</label><br>
-		 <input type="text" id="spent_unix" name="spent_unix" value="" disabled>
+		 
 		
 		<br><br>
         <input type="submit" name="submit" value="Назначить поездку">
     </form>
-	<br>      
-
+	<br>
+   <p>Будет затрачено дней: </p>	
+   <div id="txtHint"><b> количество дней...</b></div>
+   <p>Выбранная дата: </p>	
+   <div id="dt"><b> дата..</b></div>
+   <p>Конечная дата: </p>	
+   <div id=""><b> дата..</b></div>
+  
     </section>
     
 <?php include("includes/layouts/sidebar.php"); ?>
