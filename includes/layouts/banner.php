@@ -1,0 +1,1 @@
+    <div id="bannerImage"><img src="images/map_1000x300.jpg" alt=""/></div>

@@ -21,7 +21,7 @@
       <nav> <a href="index.php" title="Link">Главная</a> <a href="author.php" title="Link">Автор</a> </nav>
   </header>
      	<!-- Tagline -->
-	    <p id="headertagline">CRUD-webapplication.</p>
+	    <p id="headertagline">CR(UD)-application.</p>
   <div id="content">
     <div class="notOnDesktop"> 
       <!-- This search box is displayed only in mobile and tablet laouts and not in desktop layouts -->

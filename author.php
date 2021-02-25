@@ -6,13 +6,12 @@
       <!--************************************************************************
     Main content starts here
     ****************************************************************************-->
-      <h1>
-        <!-- Blog title -->Автор</h1>
-      <div id="bannerImage"><img src="images/mycode2.jpg" alt=""/></div>
+      <h1>Copyright</h1>
+      <div id="bannerImage"><img src="images/mycode1000x300.jpg" alt=""/></div>
       
 		
 		<h2>Автор</h2>
-	  <p>Дмитрий  Сытник.</p>
+	  <p>Дмитрий</p>
 		<h2>Ссылки</h2>
         <p>https://github.com/sytnic</p>
 		<p>https://bitbucket.org/sytnic</p>
