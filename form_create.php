@@ -5,25 +5,25 @@
 <script>
 function showReg(str) {
   if (str=="") {
-    document.getElementById("txtHint").innerHTML="";
+    document.getElementById("days").innerHTML="";
     return;
   }
   var xmlhttp=new XMLHttpRequest();
   xmlhttp.onreadystatechange=function() {
     if (this.readyState==4 && this.status==200) {
-      document.getElementById("txtHint").innerHTML=this.responseText;
+      document.getElementById("days").innerHTML=this.responseText;
     }
   }
   xmlhttp.open("GET","gettime.php?q="+str,true);
   xmlhttp.send();
 }
 
-function showDt(str) {
+function showDate(str) {
   if (str=="") {
-    document.getElementById("dt").innerHTML="";
+    document.getElementById("date").innerHTML="";
     return;
   } else {
-	  document.getElementById("dt").innerHTML=str;
+	  document.getElementById("date").innerHTML=str;
   }  
 }
 </script>
@@ -118,7 +118,7 @@ function showDt(str) {
 	
 	<form action="form_create.php" method="post">
         <label for="date_begin">Дата выезда:</label>
-        <input type="date" id="date_begin" name="date_begin" onchange="showDt(this.value)">
+        <input type="date" id="date_begin" name="date_begin" onchange="showDate(this.value)">
 		<br><br>
 		<label for="region">Choose a region</label> 
 		 <select id="region" name="region" onchange="showReg(this.value)">
@@ -168,9 +168,9 @@ function showDt(str) {
 	<br>
 	
    <p>Будет затрачено дней: </p>	
-   <div id="txtHint"><b> количество дней...</b></div>
+   <div id="days"><b> количество дней...</b></div>
    <p>Выбранная дата: </p>	
-   <div id="dt"><b> дата..</b></div>
+   <div id="date"><b> дата..</b></div>
    
    <p>Конечная дата: </p>	
    <div id="count" ><b> дата..</b></div>
