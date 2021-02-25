@@ -3,7 +3,7 @@
 <?php include("includes/layouts/header.php"); ?>
 
 <script>
-function showUser(str) {
+function showReg(str) {
   if (str=="") {
     document.getElementById("txtHint").innerHTML="";
     return;
@@ -17,20 +17,16 @@ function showUser(str) {
   xmlhttp.open("GET","gettime.php?q="+str,true);
   xmlhttp.send();
 }
-</script>
-<script>
+
 function showDt(str) {
   if (str=="") {
     document.getElementById("dt").innerHTML="";
     return;
   } else {
 	  document.getElementById("dt").innerHTML=str;
-  }
-  
+  }  
 }
 </script>
-
-
 
 <?php
     if (isset($_POST['submit'])) {
@@ -72,7 +68,7 @@ function showDt(str) {
            
 		}
 		
-		 var_dump ($busy);
+		var_dump ($busy); // debug
 		
 	    // если поля заполнялись и курьер не занят, то INSERT
 		if ($id_courier && $id_region && $date_begin_unix && !$busy) {
@@ -125,11 +121,11 @@ function showDt(str) {
         <input type="date" id="date_begin" name="date_begin" onchange="showDt(this.value)">
 		<br><br>
 		<label for="region">Choose a region</label> 
-		 <select id="region" name="region" onchange="showUser(this.value)">
+		 <select id="region" name="region" onchange="showReg(this.value)">
 		    <option value="">Выберите регион</option>
 <!-- example
-        <option value="volvo">SPB</option>
-		<option value="saab">Moscow</option>
+        <option value="1">SPB</option>
+		<option value="2">Moscow</option>
 -->		 
 <?php   
 
@@ -170,12 +166,14 @@ function showDt(str) {
         <input type="submit" name="submit" value="Назначить поездку">
     </form>
 	<br>
+	
    <p>Будет затрачено дней: </p>	
    <div id="txtHint"><b> количество дней...</b></div>
    <p>Выбранная дата: </p>	
    <div id="dt"><b> дата..</b></div>
+   
    <p>Конечная дата: </p>	
-   <div id=""><b> дата..</b></div>
+   <div id="count" ><b> дата..</b></div>
   
     </section>
     

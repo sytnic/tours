@@ -11,7 +11,7 @@
       
 		
 		<h2>Автор</h2>
-	  <p>Дмитрий  Сытник.</p>
+	  <p>Дмитрий</p>
 		<h2>Ссылки</h2>
         <p>https://github.com/sytnic</p>
 		<p>https://bitbucket.org/sytnic</p>

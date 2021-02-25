@@ -3,7 +3,6 @@
 $q = intval($_GET['q']);
 
 
-
 $sql="SELECT * FROM regions WHERE id = '".$q."'";
 $result = mysqli_query($connection,$sql);
 
